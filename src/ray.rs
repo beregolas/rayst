@@ -8,7 +8,10 @@ pub struct Ray {
 
 impl Ray {
 
-    pub fn new(origin: Vec3, direction: Vec3) -> Self{
+    pub fn new(origin: Vec3, direction: Vec3) -> Self {
+        // line automatically disabled in release builds
+        // supplying a vector of length 0 at runtime will result in (NAN, NAN, NAN) as a vector
+        debug_assert_ne!(direction.length_squared(), 0.);
         Ray{
             origin,
             direction: direction.normalize()
@@ -52,11 +55,40 @@ mod ray_tests {
     #[test]
     #[should_panic]
     fn create_failure() {
-        let r = Ray::new(
+        let _ = Ray::new(
             Vec3::new(10., 10., 10.),
             Vec3::ZERO
         );
-        println!("{:?}", r);
+    }
+
+    #[test]
+    fn at_zero() {
+        let r1 = Ray::new(
+            Vec3::new(0., 0., 0.),
+            Vec3::new(-10., 0., 0.)
+        );
+        assert_eq!(r1.at(666.666), Vec3::new(-666.666, 0., 0.));
+        assert_eq!(r1.at(-420.69), Vec3::new(420.69, 0., 0.));
+        assert_eq!(r1.at(0.), Vec3::ZERO);
+
+        let r2 = Ray::new(
+            Vec3::new(0., 0., 0.),
+            Vec3::new(5., -7., 199.)
+        );
+        assert_eq!(r2.at(88_000.), Vec3::new(5., -7., 199.).normalize() * 88_000.);
+        assert_eq!(r2.at(-9.), Vec3::new(5., -7., 199.).normalize() * -9.);
+        assert_eq!(r2.at(0.), Vec3::ZERO);
+    }
+
+    #[test]
+    fn at() {
+        let r1 = Ray::new(
+            Vec3::new(77.5, -0.004, 1.7),
+            Vec3::new(-10.5, 0., 0.1)
+        );
+        assert_eq!(r1.at(1.), Vec3::new(77.5, -0.004, 1.7) + Vec3::new(-10.5, 0., 0.1).normalize());
+        assert_eq!(r1.at(-1.), Vec3::new(77.5, -0.004, 1.7) - Vec3::new(-10.5, 0., 0.1).normalize());
+        assert_eq!(r1.at(0.5), Vec3::new(77.5, -0.004, 1.7) + Vec3::new(-10.5, 0., 0.1).normalize() / 2.);
     }
 
 }
