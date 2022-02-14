@@ -3,7 +3,8 @@ use bevy_math::Vec3;
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Ray {
     pub origin: Vec3,
-    pub direction: Vec3
+    pub direction: Vec3,
+    pub recip_direction: Vec3
 }
 
 impl Ray {
@@ -12,9 +13,11 @@ impl Ray {
         // line automatically disabled in release builds
         // supplying a vector of length 0 at runtime will result in (NAN, NAN, NAN) as a vector
         debug_assert_ne!(direction.length_squared(), 0.);
+        let d = direction.normalize();
         Ray{
             origin,
-            direction: direction.normalize()
+            direction: d,
+            recip_direction: 1. / d
         }
     }
 

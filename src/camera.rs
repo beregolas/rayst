@@ -42,10 +42,10 @@ impl OrthographicCamera {
 impl Camera for OrthographicCamera {
     fn at(&self, coords: Vec2) -> Ray {
         let c = prepare_input(coords);
-        Ray{
-            origin: self.up * -c.y + self.right * c.x,
-            direction: self.forward
-        }
+        Ray::new(
+            self.up * -c.y + self.right * c.x,
+            self.forward
+        )
     }
 }
 
