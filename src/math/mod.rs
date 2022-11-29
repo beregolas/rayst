@@ -1,1 +1,2 @@
-mod Vec3;
+mod vec3;
+mod vector;
