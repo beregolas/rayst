@@ -1,7 +1,7 @@
 use std::ops::{Add, Index, IndexMut};
 
 #[derive(Copy, Clone, Debug, Default)]
-struct Vec3 {
+pub(crate) struct Vec3 {
     x: f32,
     y: f32,
     z: f32,
