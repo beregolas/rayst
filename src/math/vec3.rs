@@ -1,4 +1,4 @@
-use std::ops::{Add, Div, Index, IndexMut, Mul};
+use std::ops::{Add, Div, Index, IndexMut, Mul, Sub};
 
 #[derive(Copy, Clone, Debug, Default, PartialEq)]
 pub struct Vec3 {
@@ -88,6 +88,18 @@ impl Add<Vec3> for f32 {
             x: self + rhs.x,
             y: self + rhs.y,
             z: self + rhs.z,
+        }
+    }
+}
+
+impl Sub<Self> for Vec3 {
+    type Output = Vec3;
+
+    fn sub(self, rhs: Self) -> Self::Output {
+        Vec3 {
+            x: self.x - rhs.y,
+            y: self.y - rhs.y,
+            z: self.z - rhs.z,
         }
     }
 }

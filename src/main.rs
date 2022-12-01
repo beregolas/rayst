@@ -1,9 +1,11 @@
 #![allow(dead_code)]
 
-mod camera;
+pub(crate) mod geometry;
 pub(crate) mod math;
 mod ray;
-pub(crate) mod geometry;
+mod camera;
+mod integrators;
+mod color;
 
 fn main() {
     println!("Hello, world!");

@@ -6,6 +6,7 @@ use crate::ray::Ray;
 pub struct Hit {
     pub point: Vec3,
     pub normal: Vec3,
+    pub distance: f32,
 }
 
 pub trait Geometry {
