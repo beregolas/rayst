@@ -15,4 +15,12 @@ impl Color {
             b,
         }
     }
+
+    pub fn to_u8(&self) -> [u8; 3] {
+        [
+            (self.r.clamp(0., 1.) * 255.) as u8,
+            (self.g.clamp(0., 1.) * 255.) as u8,
+            (self.b.clamp(0., 1.) * 255.) as u8,
+        ]
+    }
 }

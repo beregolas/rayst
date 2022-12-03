@@ -3,6 +3,8 @@ mod sphere;
 use crate::math::Vec3;
 use crate::ray::Ray;
 
+pub use sphere::Sphere;
+
 pub struct Hit {
     pub point: Vec3,
     pub normal: Vec3,

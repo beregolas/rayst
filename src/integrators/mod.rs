@@ -1,1 +1,1 @@
-mod simple_shade;
+pub mod simple_shade;

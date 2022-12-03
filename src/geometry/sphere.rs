@@ -3,9 +3,9 @@ use crate::geometry::{Geometry, Hit};
 use crate::math::Vec3;
 use crate::ray::Ray;
 
-struct Sphere {
-    center: Vec3,
-    radius: f32
+pub struct Sphere {
+    pub center: Vec3,
+    pub radius: f32
 }
 
 impl Geometry for Sphere {
