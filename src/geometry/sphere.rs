@@ -1,4 +1,3 @@
-use std::mem::swap;
 use crate::geometry::{Geometry, Hit};
 use crate::math::Vec3;
 use crate::ray::Ray;
@@ -14,29 +13,11 @@ impl Geometry for Sphere {
     }
 
     fn does_intersect(&self, ray: &Ray) -> bool {
-        let l = self.center - ray.origin;
-        let tca = l.dot(&ray.direction);
-        let d2 = l.dot(&l) - tca * tca;
-        if d2 > self.radius * self.radius {
-            return false;
-        }
-        let thc = (self.radius - d2).sqrt();
-        let mut t0 = tca - thc;
-        let mut t1 = tca + thc;
-
-        if t0 > t1 {
-            swap(&mut t0, &mut t1)
-        }
-
-        if t0 < 0. {
-            t0 = t1;
-            if t0 < 0. {
-                return false;
-            }
-        }
-
-
-        true
+        // vector from ray origin to the center of the sphere
+        let d = ray.origin - self.center;
+        // projected onto the ray direction. This is the closest point to the center on the ray
+        let P = ray.at(d.dot(&ray.direction));
+        (self.center - P).length_squared() < self.radius * self.radius
     }
 
     fn get_bounds(&self) -> f32 {

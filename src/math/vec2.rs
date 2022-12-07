@@ -1,4 +1,5 @@
-use std::ops::{Add, Div, Index, IndexMut, Mul, Sub};
+use std::ops::{Index, IndexMut};
+use crate::vec_op;
 
 #[derive(Copy, Clone, Debug, Default, PartialEq)]
 pub struct Vec2 {
@@ -41,69 +42,11 @@ impl Vec2 {
         self.x * rhs.x + self.y * rhs.y
     }
 }
+vec_op!(Vec2, +, x y);
+vec_op!(Vec2, -, x y);
+vec_op!(Vec2, *, x y);
+vec_op!(Vec2, /, x y);
 
-impl Add<Self> for Vec2 {
-    type Output = Self;
-
-    fn add(self, rhs: Self) -> Self::Output {
-        Vec2 {
-            x: self.x + rhs.x,
-            y: self.y + rhs.y,
-        }
-    }
-}
-
-impl Sub<f32> for Vec2 {
-    type Output = Self;
-
-    fn sub(self, rhs: f32) -> Self::Output {
-        Vec2 {
-            x: self.x - rhs,
-            y: self.y - rhs,
-        }
-    }
-}
-
-impl Mul<f32> for Vec2 {
-    type Output = Self;
-
-    fn mul(self, rhs: f32) -> Self::Output {
-        Vec2 {
-            x: self.x * rhs,
-            y: self.y * rhs,
-        }
-    }
-}
-
-impl Mul<Vec2> for f32 {
-    type Output = Vec2;
-
-    fn mul(self, rhs: Vec2) -> Self::Output {
-        rhs * self
-    }
-}
-
-impl Div<f32> for Vec2 {
-    type Output = Vec2;
-
-    fn div(self, rhs: f32) -> Self::Output {
-        Vec2 {
-            x: self.x / rhs,
-            y: self.y / rhs,
-        }
-    }
-}
-
-impl Div<Vec2> for f32 {
-    type Output = Vec2;
-
-    fn div(self, rhs: Vec2) -> Self::Output {
-        Vec2 {
-            x: self / rhs.x,
-            y: self / rhs.y,
-        }
-    }
-}
 
 impl From<f32> for Vec2 {
     fn from(value: f32) -> Self {
