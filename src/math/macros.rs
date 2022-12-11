@@ -1,7 +1,3 @@
-#[macro_export]
-macro_rules! assert_delta {
-    ()
-}
 
 #[macro_export]
 macro_rules! vec_op {
@@ -71,4 +67,23 @@ macro_rules! vec_op {
         }
 
     }
+}
+
+#[macro_export]
+macro_rules! vec_access {
+    ($a:tt) => {
+        pub fn $a(&self) -> f32 {
+            self.$a
+        }
+    };
+    ($a:tt $b:tt) => {
+        pub fn $a$b(&self) -> Vec2 {
+            Vec2::new($a, $b)
+        }
+    };
+    ($a:tt $b:tt $c:tt) => {
+        pub fn $a$b$c(&self) -> Vec3 {
+            Vec3::new($a, $b, $c)
+        }
+    };
 }
