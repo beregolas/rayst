@@ -1,5 +1,5 @@
 use std::ops::{Index, IndexMut};
-use crate::{vec_access, vec_op};
+use crate::{vec_op};
 use crate::math::vec::Vector;
 
 #[derive(Copy, Clone, Debug, Default, PartialEq)]
@@ -39,8 +39,6 @@ impl Vec3 {
         y: 1.,
         z: 0.,
     };
-
-    vec_access!(x y z);
 
     pub fn new(x: f32, y: f32, z: f32) -> Self {
         Vec3 { x, y, z }
@@ -85,7 +83,6 @@ impl Vector for Vec3 {
         self.x * rhs.x + self.y * rhs.y + self.z * rhs.z
     }
 }
-
 
 vec_op!(Vec3, +, x y z);
 vec_op!(Vec3, -, x y z);
@@ -132,9 +129,52 @@ mod vec3_tests {
     use crate::math::{EPSILON, Vec3};
 
     #[test]
-    fn creation() {
+    fn creation1() {
         let v1 = Vec3::new(1., 2., 3.);
-        println!("{:?}", v1.xyz());
+        assert_eq!(v1.x, 1.);
+        assert_eq!(v1.y, 2.);
+        assert_eq!(v1.z, 3.);
+        let v2 = Vec3::new(1453., 2000., 30_000_000_000.);
+        assert_eq!(v2.x, 1453.);
+        assert_eq!(v2.y, 2000.);
+        assert_eq!(v2.z, 30_000_000_000.);
+    }
+
+    #[test]
+    fn creation2() {
+        let v = Vec3::new(0.005, 0.02, 0.11234);
+        assert_eq!(v.x, 0.005);
+        assert_eq!(v.y, 0.02);
+        assert_eq!(v.z, 0.11234);
+    }
+
+    #[test]
+    fn creation3() {
+        let v1 = Vec3::new(-200., -1., -555555.);
+        assert_eq!(v1.x, -200.);
+        assert_eq!(v1.y, -1.);
+        assert_eq!(v1.z, -555555.);
+        let v2 = Vec3::new(-5., -1., 22301.);
+        assert_eq!(v2.x, -5.);
+        assert_eq!(v2.y, -1.);
+        assert_eq!(v2.z, 22301.);
+        let v3 = Vec3::new(0.0009, -0.05, -200.005);
+        assert_eq!(v3.x, 0.0009);
+        assert_eq!(v3.y, -0.05);
+        assert_eq!(v3.z, -200.005);
+        let v3 = Vec3::new(200.002, -99.9991, 0.);
+        assert_eq!(v3.x, 200.002);
+        assert_eq!(v3.y, -99.9991);
+        assert_eq!(v3.z, 0.);
+        let v4 = Vec3::new(0., -0., 0.);
+        assert_eq!(v4.x, 0.);
+        assert_eq!(v4.y, -0.);
+        assert_eq!(v4.z, 0.);
+    }
+
+    #[test]
+    fn add1() {
+
     }
 
 }

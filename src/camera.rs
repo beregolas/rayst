@@ -1,5 +1,5 @@
 use crate::ray::Ray;
-use crate::math::{Vec2, Vec3};
+use crate::math::{Vec2, Vec3, Vector};
 
 pub trait Camera {
     // input: coords from (0,0) to (1,1)
