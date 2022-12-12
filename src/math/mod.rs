@@ -7,4 +7,4 @@ pub use vec2::Vec2;
 pub use vec3::Vec3;
 pub use vec::Vector;
 
-const EPSILON: f32 = 0.0000001;
+const EPSILON: f32 = 0.00001;

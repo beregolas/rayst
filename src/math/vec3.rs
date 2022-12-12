@@ -128,53 +128,89 @@ impl IndexMut<usize> for Vec3 {
 mod vec3_tests {
     use crate::math::{EPSILON, Vec3};
 
+    fn assert_float_eq(lhs: f32, rhs: f32) {
+        assert!((lhs - rhs).abs() < EPSILON, "a: {} and b: {} are not close enough. allowed epsilon: {}, actual epsilon: {}", lhs, rhs, EPSILON, (lhs-rhs).abs());
+    }
+
+    fn assert_vec_eq(lhs: Vec3, rhs: Vec3) {
+        for i in 0..=2 {
+            assert_float_eq(lhs[i], rhs[i]);
+        }
+    }
+
+    // this is only for more concise tests. It is not good syntax to use in the rest of the program
+    macro_rules! v3 {
+        ($x:expr, $y:expr, $z:expr) => {
+            Vec3::new($x, $y, $z)
+        }
+    }
+
     #[test]
     fn creation1() {
-        let v1 = Vec3::new(1., 2., 3.);
-        assert_eq!(v1.x, 1.);
-        assert_eq!(v1.y, 2.);
-        assert_eq!(v1.z, 3.);
-        let v2 = Vec3::new(1453., 2000., 30_000_000_000.);
-        assert_eq!(v2.x, 1453.);
-        assert_eq!(v2.y, 2000.);
-        assert_eq!(v2.z, 30_000_000_000.);
+        let v1 = v3!(1., 2., 3.);
+        assert_float_eq(v1.x, 1.);
+        assert_float_eq(v1.y, 2.);
+        assert_float_eq(v1.z, 3.);
+        let v2 = v3!(1453., 2000., 30_000_000_000.);
+        assert_float_eq(v2.x, 1453.);
+        assert_float_eq(v2.y, 2000.);
+        assert_float_eq(v2.z, 30_000_000_000.);
     }
 
     #[test]
     fn creation2() {
-        let v = Vec3::new(0.005, 0.02, 0.11234);
-        assert_eq!(v.x, 0.005);
-        assert_eq!(v.y, 0.02);
-        assert_eq!(v.z, 0.11234);
+        let v = v3!(0.005, 0.02, 0.11234);
+        assert_float_eq(v.x, 0.005);
+        assert_float_eq(v.y, 0.02);
+        assert_float_eq(v.z, 0.11234);
     }
 
     #[test]
     fn creation3() {
-        let v1 = Vec3::new(-200., -1., -555555.);
-        assert_eq!(v1.x, -200.);
-        assert_eq!(v1.y, -1.);
-        assert_eq!(v1.z, -555555.);
-        let v2 = Vec3::new(-5., -1., 22301.);
-        assert_eq!(v2.x, -5.);
-        assert_eq!(v2.y, -1.);
-        assert_eq!(v2.z, 22301.);
-        let v3 = Vec3::new(0.0009, -0.05, -200.005);
-        assert_eq!(v3.x, 0.0009);
-        assert_eq!(v3.y, -0.05);
-        assert_eq!(v3.z, -200.005);
-        let v3 = Vec3::new(200.002, -99.9991, 0.);
-        assert_eq!(v3.x, 200.002);
-        assert_eq!(v3.y, -99.9991);
-        assert_eq!(v3.z, 0.);
-        let v4 = Vec3::new(0., -0., 0.);
-        assert_eq!(v4.x, 0.);
-        assert_eq!(v4.y, -0.);
-        assert_eq!(v4.z, 0.);
+        let v1 = v3!(-200., -1., -555555.);
+        assert_float_eq(v1.x, -200.);
+        assert_float_eq(v1.y, -1.);
+        assert_float_eq(v1.z, -555555.);
+        let v2 = v3!(-5., -1., 22301.);
+        assert_float_eq(v2.x, -5.);
+        assert_float_eq(v2.y, -1.);
+        assert_float_eq(v2.z, 22301.);
+        let v3 = v3!(0.0009, -0.05, -200.005);
+        assert_float_eq(v3.x, 0.0009);
+        assert_float_eq(v3.y, -0.05);
+        assert_float_eq(v3.z, -200.005);
+        let v3 = v3!(200.002, -99.9991, 0.);
+        assert_float_eq(v3.x, 200.002);
+        assert_float_eq(v3.y, -99.9991);
+        assert_float_eq(v3.z, 0.);
+        let v4 = v3!(0., -0., 0.);
+        assert_float_eq(v4.x, 0.);
+        assert_float_eq(v4.y, -0.);
+        assert_float_eq(v4.z, 0.);
     }
 
     #[test]
     fn add1() {
-
+        assert_vec_eq(v3!(1., 2., 3.) + v3!(10., 20., 100000.), v3!(11., 22., 100003.));
+        assert_vec_eq(v3!(0., 0., 0.) + v3!(-10., -4., -100.), v3!(-10., -4., -100.));
+        assert_vec_eq(v3!(100_000_000., 77., -500.) + v3!(0., -10., -74.), v3!(100_000_000., 67., -574.));
+        assert_vec_eq(v3!(-123., -44., 100.) + v3!(123., -1., 9.), v3!(0., -45., 109.));
+        assert_vec_eq(v3!(0.009, 0.7, 0.009) + v3!(0.001, 0.01, 0.09), v3!(0.01, 0.71, 0.099));
+        assert_vec_eq(v3!(10., 99.999, 0.95) + v3!(20., -34.412, -0.03), v3!(30., 65.587, 0.92));
+        assert_vec_eq(v3!(0.05, 0.9, 0.00006) + v3!(1., 10., 10000.), v3!(1.05, 10.9, 10000.00006));
+        assert_vec_eq(v3!(0.05, 0.9, 0.00006) + v3!(1.1, 10.0009, 10000.55), v3!(1.15, 10.9009, 10000.55006));
     }
+
+    #[test]
+    fn add2() {
+        let mut v = Vec3::ZERO;
+        v += v3!(10., 20., 30.);
+        assert_vec_eq(v, v3!(10., 20., 30.));
+        v += v3!(-0.006, 0.9, 100.004);
+        assert_vec_eq(v, v3!(9.994, 20.9, 130.004));
+        v += v3!(-9.5, -80.9, 100000.);
+        assert_vec_eq(v, v3!(0.494, -60., 100130.004));
+    }
+
 
 }
