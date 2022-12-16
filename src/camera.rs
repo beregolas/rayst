@@ -81,3 +81,16 @@ impl Camera for PerspectiveCamera {
         )
     }
 }
+
+#[cfg(test)]
+mod camera_tests {
+    use crate::camera;
+    use crate::camera::OrthographicCamera;
+    use crate::math::{Vec2, Vec3};
+
+    #[test]
+    fn create_orthographic() {
+        let cam1 = OrthographicCamera::new(Vec3::new(1., 1., 1.), Vec3::new(-1., 0., 0.), Vec3::UP, Vec2::new(15., 15.));
+    }
+
+}

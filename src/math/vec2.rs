@@ -10,6 +10,14 @@ pub struct Vec2 {
 impl Vec2 {
     pub const ZERO: Self = Vec2 { x: 0., y: 0. };
 
+    pub const DOWN: Self = Vec2 { x: 0., y: 1. };
+
+    pub const UP: Self = Vec2 { x: 0., y: -1. };
+
+    pub const RIGHT: Self = Vec2 { x: 1., y: 0. };
+
+    pub const LEFT: Self = Vec2 { x: -1., y: 0. };
+
     pub fn new(x: f32, y: f32) -> Self {
         Self { x, y }
     }
