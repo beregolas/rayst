@@ -13,6 +13,18 @@ impl Aabb {
             min, max
         }
     }
+
+    pub fn outer_does_intersect(&self, ray: &Ray) -> bool {
+        // efficient slab algorithm
+        let t0 = (self.min - ray.origin) * ray.recip_direction;
+        let t1 = (self.max - ray.origin) * ray.recip_direction;
+        let t_min = t0.min_vector(&t1);
+        let t_max = t0.max_vector(&t1);
+        let potential_hit_dist = t_max.min_component();
+        // only accept hits, when we are inside the box or in front of it
+        t_min.max_component() <= potential_hit_dist && potential_hit_dist >= 0.
+    }
+
 }
 
 impl Geometry for Aabb {
@@ -27,6 +39,7 @@ impl Geometry for Aabb {
         let t_min = t0.min_vector(&t1);
         let t_max = t0.max_vector(&t1);
         let potential_hit_dist = t_min.max_component();
+        // only accept hits if we hit the box before us from the outside (inside and behind us is ignored)
         potential_hit_dist <= t_max.min_component() && potential_hit_dist >= 0.
     }
 
