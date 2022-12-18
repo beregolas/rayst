@@ -1,17 +1,18 @@
-use crate::geometry::{Geometry, Hit};
+use crate::geometry::{Aabb, Geometry, Hit};
 use crate::math::{Vec3, Vector};
 use crate::ray::Ray;
 
+#[derive(Copy, Clone, Debug, Default, PartialEq)]
 pub struct Sphere {
     pub center: Vec3,
-    pub radius2: f32
+    pub radius: f32
 }
 
 impl Sphere {
     pub fn new(c: Vec3, r: f32) -> Self {
         Sphere {
             center: c,
-            radius2: r * r
+            radius: r
         }
     }
 }
@@ -27,12 +28,13 @@ impl Geometry for Sphere {
         let point = ray.at(distance);
         // height of the closest point over the center of the sphere
         let height2 = (self.center - point).length_squared();
+        let radius2 = self.radius * self.radius;
         // nearest point outside of sphere: no hit
-        if height2 > self.radius2 {
+        if height2 > radius2 {
             return None;
         }
         // find the most backwards hit point on the ray. if it's behind the origin, disregard (inside or behind the sphere)
-        let hit_distance = distance - (self.radius2 - height2).sqrt();
+        let hit_distance = distance - (radius2 - height2).sqrt();
         if hit_distance < 0. {
             return None;
         }
@@ -54,16 +56,20 @@ impl Geometry for Sphere {
         let point = ray.at(distance);
         // height of the closest point over the center of the sphere
         let height2 = (self.center - point).length_squared();
+        let radius2 = self.radius * self.radius;
         // nearest point outside of sphere: no hit
-        if height2 > self.radius2 {
+        if height2 > radius2 {
             return false;
         }
-        let t = (self.radius2 - height2).sqrt();
+        let t = (radius2 - height2).sqrt();
         distance > t.abs()
     }
 
-    fn get_bounds(&self) -> f32 {
-        todo!()
+    fn get_bounds(&self) -> Aabb {
+        Aabb {
+            min: self.center - self.radius,
+            max: self.center + self.radius
+        }
     }
 }
 

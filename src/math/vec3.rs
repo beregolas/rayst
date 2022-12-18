@@ -1,4 +1,4 @@
-use std::ops::{Index, IndexMut};
+use std::ops::{Index, IndexMut, Neg};
 use crate::{vec_op};
 use crate::math::ApproxEq;
 use crate::math::vec::Vector;
@@ -22,6 +22,26 @@ impl Vec3 {
         y: 1.,
         z: 1.,
     };
+
+    pub const X: Self = Vec3 {
+        x: 1.,
+        y: 0.,
+        z: 0.,
+    };
+
+    pub const Y: Self = Vec3 {
+        x: 0.,
+        y: 1.,
+        z: 0.,
+    };
+
+    pub const Z: Self = Vec3 {
+        x: 0.,
+        y: 0.,
+        z: 1.,
+    };
+
+    pub const AXES: [Vec3; 3] = [Self::X, Self::Y, Self::Z];
 
     pub const UP: Self = Vec3 {
         x: 0.,
@@ -57,6 +77,18 @@ impl Vec3 {
 impl ApproxEq for Vec3 {
     fn aeq(&self, rhs: &Self) -> bool {
         self.x.aeq(&rhs.x) && self.y.aeq(&rhs.y) && self.z.aeq(&rhs.z)
+    }
+}
+
+impl Neg for Vec3 {
+    type Output = Self;
+
+    fn neg(self) -> Self::Output {
+        Self {
+            x: -self.x,
+            y: -self.y,
+            z: -self.z
+        }
     }
 }
 
