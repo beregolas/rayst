@@ -1,5 +1,6 @@
 mod sphere;
 mod aabb;
+mod triangle;
 
 use crate::math::Vec3;
 use crate::ray::Ray;

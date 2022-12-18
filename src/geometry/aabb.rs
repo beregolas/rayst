@@ -56,7 +56,7 @@ impl Geometry for Aabb {
             Hit {
                 distance: potential_hit_dist,
                 point: ray.at(potential_hit_dist),
-                normal: Vec3::AXES[axis] * ray.direction.dot(&Vec3::AXES[axis]).signum()
+                normal: Vec3::AXES[axis] * -ray.direction.dot(&Vec3::AXES[axis]).signum()
             }
         )
     }

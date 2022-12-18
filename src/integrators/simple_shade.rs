@@ -1,7 +1,15 @@
 use crate::color::Color;
 use crate::geometry::Geometry;
-use crate::math::Vector;
+use crate::math::{Vec3, Vector};
 use crate::ray::Ray;
+
+fn make_color(value: f32) -> f32 {
+    match value {
+        0. => 0.,
+        x if x < 0. => -x,
+        x => x / 2.,
+    }
+}
 
 pub fn intersect(world: &impl Geometry, ray: &Ray) -> Color {
 
@@ -12,7 +20,7 @@ pub fn intersect(world: &impl Geometry, ray: &Ray) -> Color {
     }
 
     if let Some(hit) = hit  {
-        Color::new(ray.direction.dot(&hit.normal), -ray.direction.dot(&hit.normal), 0.)
+        Color::new(make_color(hit.normal.x), make_color(hit.normal.y), make_color(hit.normal.z))
     } else {
         Color::new(0., 0., 0.)
     }
