@@ -1,4 +1,5 @@
 mod sphere;
+mod aabb;
 
 use crate::math::Vec3;
 use crate::ray::Ray;
@@ -12,7 +13,7 @@ pub struct Hit {
 }
 
 pub trait Geometry {
-    fn intersect(&self, ray: &Ray) -> Hit;
+    fn intersect(&self, ray: &Ray) -> Option<Hit>;
     fn does_intersect(&self, ray: &Ray) -> bool;
     fn get_bounds(&self) -> f32;
 }

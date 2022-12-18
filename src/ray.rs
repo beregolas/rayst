@@ -4,7 +4,7 @@ use crate::math::{Vec3, Vector};
 pub struct Ray {
     pub origin: Vec3,
     pub direction: Vec3,
-    pub recip_direction: Vec3,
+    pub recip_direction: Vec3,  // 1 / direction
 }
 
 impl Ray {

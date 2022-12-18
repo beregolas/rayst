@@ -84,13 +84,16 @@ impl Camera for PerspectiveCamera {
 
 #[cfg(test)]
 mod camera_tests {
-    use crate::camera;
     use crate::camera::OrthographicCamera;
-    use crate::math::{Vec2, Vec3};
+    use crate::math::{ApproxEq, Vec2, Vec3};
 
     #[test]
     fn create_orthographic() {
-        let cam1 = OrthographicCamera::new(Vec3::new(1., 1., 1.), Vec3::new(-1., 0., 0.), Vec3::UP, Vec2::new(15., 15.));
+        let cam1 = OrthographicCamera::new(Vec3::new(1., 1., 1.), Vec3::new(-4., 0., 0.), Vec3::new(0., 90.3,  0.), Vec2::new(15., 15.));
+        assert!(cam1.forward.aeq(&Vec3::new(-1., 0., 0.)));
+        assert!(cam1.origin.aeq(&Vec3::new(1., 1., 1.)));
+        assert!(cam1.up.aeq(&Vec3::new(0., 15., 0.)));
+        assert!(cam1.right.aeq(&Vec3::new(0., 0., -15.)))
     }
 
 }

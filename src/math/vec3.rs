@@ -1,5 +1,6 @@
 use std::ops::{Index, IndexMut};
 use crate::{vec_op};
+use crate::math::ApproxEq;
 use crate::math::vec::Vector;
 
 #[derive(Copy, Clone, Debug, Default, PartialEq)]
@@ -53,6 +54,12 @@ impl Vec3 {
     }
 }
 
+impl ApproxEq for Vec3 {
+    fn aeq(&self, rhs: &Self) -> bool {
+        self.x.aeq(&rhs.x) && self.y.aeq(&rhs.y) && self.z.aeq(&rhs.z)
+    }
+}
+
 impl Vector for Vec3 {
     fn normalize(&mut self) {
         let length: f32 = self.length();
@@ -76,11 +83,35 @@ impl Vector for Vec3 {
     }
 
     fn is_nan(&self) -> bool {
-        self.x.is_nan() && self.y.is_nan() && self.z.is_nan()
+        self.x.is_nan() || self.y.is_nan() || self.z.is_nan()
     }
 
     fn dot(&self, rhs: &Self) -> f32 {
         self.x * rhs.x + self.y * rhs.y + self.z * rhs.z
+    }
+
+    fn min_vector(&self, rhs: &Self) -> Self {
+        Self {
+            x: self.x.min(rhs.x),
+            y: self.y.min(rhs.y),
+            z: self.z.min(rhs.z),
+        }
+    }
+
+    fn max_vector(&self, rhs: &Self) -> Self {
+        Self {
+            x: self.x.max(rhs.x),
+            y: self.y.max(rhs.y),
+            z: self.z.max(rhs.z),
+        }
+    }
+
+    fn min_component(&self) -> f32 {
+        self.x.min(self.y.min(self.z))
+    }
+
+    fn max_component(&self) -> f32 {
+        self.x.max(self.y.max(self.z))
     }
 }
 
@@ -126,7 +157,7 @@ impl IndexMut<usize> for Vec3 {
 
 #[cfg(test)]
 mod vec3_tests {
-    use crate::math::{EPSILON, Vec3};
+    use crate::math::{EPSILON, Vec3, Vector};
 
     fn assert_float_eq(lhs: f32, rhs: f32) {
         assert!((lhs - rhs).abs() < EPSILON, "a: {} and b: {} are not close enough. allowed epsilon: {}, actual epsilon: {}", lhs, rhs, EPSILON, (lhs-rhs).abs());
@@ -211,6 +242,14 @@ mod vec3_tests {
         v += v3!(-9.5, -80.9, 100000.);
         assert_vec_eq(v, v3!(0.494, -60., 100130.004));
     }
+
+    #[test]
+    fn normalize() {
+        assert_vec_eq(v3!(10., 0., 0.).normalized(), v3!(1., 0., 0.));
+        assert_vec_eq(v3!(0., 10., 0.).normalized(), v3!(0., 1., 0.));
+        assert_vec_eq(v3!(0., 0., 10.).normalized(), v3!(0., 0., 1.));
+    }
+
 
 
 }

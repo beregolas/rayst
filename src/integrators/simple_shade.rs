@@ -4,11 +4,11 @@ use crate::ray::Ray;
 
 pub fn intersect(world: &impl Geometry, ray: &Ray) -> Color {
 
-    if world.does_intersect(ray) {
-        println!("hit!");
-        Color::new(1., 1., 1.)
+    let hit = world.intersect(ray);
+
+    if let Some(hit) = hit  {
+        Color::new(hit.normal.z, hit.normal.z, hit.normal.z)
     } else {
-        println!("miss!");
         Color::new(0., 0., 0.)
     }
 

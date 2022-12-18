@@ -1,4 +1,4 @@
-
+use crate::vec_op;
 
 pub struct Color {
     pub r: f32,
@@ -24,3 +24,8 @@ impl Color {
         ]
     }
 }
+
+vec_op!(Color, +, r g b);
+vec_op!(Color, -, r g b);
+vec_op!(Color, *, r g b);
+vec_op!(Color, /, r g b);
