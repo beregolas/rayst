@@ -7,7 +7,9 @@ use crate::ray::Ray;
 
 pub use sphere::Sphere;
 pub use aabb::Aabb;
+pub use triangle::Triangle;
 
+#[derive(Copy, Clone, Debug, Default, PartialEq)]
 pub struct Hit {
     pub point: Vec3,
     pub normal: Vec3,

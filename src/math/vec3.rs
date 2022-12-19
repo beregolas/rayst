@@ -283,5 +283,10 @@ mod vec3_tests {
     }
 
 
+    #[test]
+    fn cross() {
+        assert_vec_eq(v3!(1., 0., 0.).cross(&v3!(0., 1., 0.)), v3!(0., 0., 1.));
+    }
+
 
 }
