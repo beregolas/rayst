@@ -39,7 +39,7 @@ impl OrthographicCamera {
 impl Camera for OrthographicCamera {
     fn at(&self, coords: Vec2) -> Ray {
         let c = prepare_input(coords);
-        Ray::new(self.origin + self.up * -c.y + self.right * c.x, self.forward)
+        Ray::new(self.origin + self.up * -c.y + self.right * c.x, self.forward, None, None)
     }
 }
 
@@ -78,6 +78,8 @@ impl Camera for PerspectiveCamera {
         Ray::new(
             self.origin,
             self.forward + self.up * -c.y + self.right * c.x,
+            None,
+            None
         )
     }
 }
