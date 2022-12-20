@@ -6,12 +6,13 @@ use crate::color::Color;
 use crate::geometry::{Aabb, Sphere, Triangle};
 use crate::math::{Vec2, Vec3};
 
-pub(crate) mod geometry;
-pub(crate) mod math;
-mod ray;
-mod camera;
-mod integrators;
-mod color;
+pub mod geometry;
+pub mod math;
+pub mod ray;
+pub mod camera;
+pub mod integrators;
+pub mod color;
+pub mod groups;
 
 fn main() {
     let resolution = (200, 200);
