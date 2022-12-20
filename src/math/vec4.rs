@@ -59,11 +59,11 @@ impl Vector for Vec4 {
         self.x * rhs.x + self.y * rhs.y + self.z * rhs.z + self.w * rhs.w
     }
 
-    fn min_vector(&self, rhs: &Self) -> Self {
+    fn min_vector(&self, _rhs: &Self) -> Self {
         todo!()
     }
 
-    fn max_vector(&self, rhs: &Self) -> Self {
+    fn max_vector(&self, _rhs: &Self) -> Self {
         todo!()
     }
 

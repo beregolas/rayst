@@ -1,6 +1,6 @@
 use crate::color::Color;
 use crate::geometry::Geometry;
-use crate::math::{Vec3, Vector};
+
 use crate::ray::Ray;
 
 fn make_color(value: f32) -> f32 {

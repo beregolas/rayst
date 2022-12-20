@@ -25,13 +25,13 @@ fn main() {
     let cam = PerspectiveCamera::new(Vec3::new(278., 273., -800.), Vec3::new(0., 0., 1.), Vec3::new(0., 1., 0.), 1., 45.);
     // let cam = PerspectiveCamera::new(Vec3::new(2., 2., 2.), Vec3::new(-1., -1., -1.), Vec3::new(0., 0., 1.), 1., 90.);
     // let cam = OrthographicCamera::new(Vec3::new(-10., 0., 0.), Vec3::new(1., 0., 0.), Vec3::new(0., 1., 0.), Vec2::new(2., 2.));
-    let sphere1 = Sphere::new(Vec3::new(2., 0., 0.), 1.);
+    let sphere1 = Sphere::new(Vec3::new(300., 100., 200.), 100.);
     // let world = Aabb::new(Vec3::new(0., 0., 0.), Vec3::new(1., 1., 1.));
     // let world = Triangle::new(Vec3::new(0., 0., 0.), Vec3::new(0., 2., 0.), Vec3::new(2., 0., 0.));
     let abox = Aabb::new(Vec3::new(0., 0., 0.), Vec3::new(1., 1., 1.));
     let mut world = SimpleGroup::new();
     //world.push(Box::new(abox));
-    //world.push(Box::new(sphere1));
+    world.push(Box::new(sphere1));
     build_cornell_box(&mut world);
 
     for (x, y, pixel) in img.enumerate_pixels_mut() {
@@ -48,7 +48,7 @@ fn main() {
 
 
 
-fn build_cornell_box(world: &mut dyn groups::Group) {
+fn build_cornell_box(world: &mut dyn Group) {
     // FLOOR
     world.push(Box::new(Triangle::new(Vec3::new(0., 0., 0.), Vec3::new(552.8, 0., 0.), Vec3::new(0., 0., 559.2))));
     world.push(Box::new(Triangle::new(Vec3::new(0., 0., 559.2),Vec3::new(552.8, 0., 0.), Vec3::new(549.6, 0., 559.2))));

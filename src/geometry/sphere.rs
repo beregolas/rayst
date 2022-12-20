@@ -35,15 +35,16 @@ impl Geometry for Sphere {
         }
         // find the most backwards hit point on the ray. if it's behind the origin, disregard (inside or behind the sphere)
         let hit_distance = distance - (radius2 - height2).sqrt();
-        if hit_distance < 0. {
-            return None;
+        if hit_distance > ray.min_distance && hit_distance < ray.max_distance {
+            let hit_point = ray.at(hit_distance);
+            Some(Hit{
+                point: hit_point,
+                normal: (hit_point - self.center).normalized(),
+                distance: hit_distance
+            })
+        } else {
+            None
         }
-        let hit_point = ray.at(hit_distance);
-        Some(Hit{
-            point: hit_point,
-            normal: (hit_point - self.center).normalized(),
-            distance: hit_distance
-        })
     }
 
     fn does_intersect(&self, ray: &Ray) -> bool {
@@ -61,8 +62,8 @@ impl Geometry for Sphere {
         if height2 > radius2 {
             return false;
         }
-        let t = (radius2 - height2).sqrt();
-        distance > t.abs()
+        let hit_distance = distance - (radius2 - height2).sqrt();
+        hit_distance > ray.min_distance && hit_distance < ray.max_distance
     }
 
     fn get_bounds(&self) -> Aabb {
@@ -82,7 +83,7 @@ mod vec3_tests {
     #[test]
     fn does_intersect1() {
         let s = Sphere::new(Vec3::new(0., 0., 0.), 1.0);
-        let ray1 = Ray::new(Vec3::new(-2., 0., 0.), Vec3::new(1., 0.5, 0.));
+        let ray1 = Ray::new(Vec3::new(-2., 0., 0.), Vec3::new(1., 0.5, 0.), None, None);
         assert!(s.does_intersect(&ray1));
     }
 
