@@ -5,7 +5,6 @@ use crate::ray::Ray;
 
 fn make_color(value: f32) -> f32 {
     match value {
-        0. => 0.,
         x if x < 0. => -x,
         x => x / 2.,
     }

@@ -16,6 +16,7 @@ pub mod integrators;
 pub mod color;
 pub mod groups;
 pub mod lights;
+pub mod materials;
 
 fn main() {
     let resolution = (900, 900);
@@ -28,9 +29,9 @@ fn main() {
     let sphere1 = Sphere::new(Vec3::new(300., 100., 200.), 100.);
     // let world = Aabb::new(Vec3::new(0., 0., 0.), Vec3::new(1., 1., 1.));
     // let world = Triangle::new(Vec3::new(0., 0., 0.), Vec3::new(0., 2., 0.), Vec3::new(2., 0., 0.));
-    let abox = Aabb::new(Vec3::new(0., 0., 0.), Vec3::new(1., 1., 1.));
+    let abox = Aabb::new(Vec3::new(30., 30., 30.), Vec3::new(70., 70., 70.));
     let mut world = SimpleGroup::new();
-    //world.push(Box::new(abox));
+    world.push(Box::new(abox));
     world.push(Box::new(sphere1));
     build_cornell_box(&mut world);
 

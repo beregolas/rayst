@@ -37,7 +37,7 @@ impl Geometry for Aabb {
         let t_min = t0.min_vector(&t1);
         let t_max = t0.max_vector(&t1);
         let potential_hit_dist = t_min.max_component();
-        if !(potential_hit_dist <= t_max.min_component() && potential_hit_dist >= 0.) {
+        if potential_hit_dist > t_max.min_component() || potential_hit_dist < ray.min_distance || potential_hit_dist > ray.max_distance {
             return None
         }
         // find the last axis we cross in t_min
@@ -69,7 +69,7 @@ impl Geometry for Aabb {
         let t_max = t0.max_vector(&t1);
         let potential_hit_dist = t_min.max_component();
         // only accept hits if we hit the box before us from the outside (inside and behind us is ignored)
-        potential_hit_dist <= t_max.min_component() && potential_hit_dist >= 0.
+        !(potential_hit_dist > t_max.min_component() || potential_hit_dist < ray.min_distance || potential_hit_dist > ray.max_distance)
     }
 
     fn get_bounds(&self) -> Aabb {

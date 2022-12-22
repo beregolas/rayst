@@ -45,7 +45,7 @@ impl Geometry for Triangle {
             return None;
         }
         let t = f * e2.dot(&q);
-        if t > EPSILON {
+        if t > ray.min_distance && t < ray.max_distance {
             Some(
                 Hit {
                     point: ray.at(t),
@@ -82,7 +82,7 @@ mod vec3_tests {
     #[test]
     fn intersect() {
         let t1 = Triangle::new(Vec3::new(0., 0., 0.), Vec3::new(1., 0., 0.), Vec3::new(0., 1., 0.));
-        let r1 = Ray::new(Vec3::new(0.1, 0.1, -0.1), Vec3::new(0., 0., 1.));
+        let r1 = Ray::new(Vec3::new(0.1, 0.1, -0.1), Vec3::new(0., 0., 1.), None, None);
         println!("{:?}", t1.intersect(&r1));
         // assert!(t1.intersect(&r1).is_some());
     }
