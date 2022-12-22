@@ -9,7 +9,7 @@ pub use vec3::Vec3;
 pub use vec4::Vec4;
 pub use vec::Vector;
 
-pub const EPSILON: f32 = 0.00001;
+pub const EPSILON: f32 = 0.001;
 
 pub trait ApproxEq {
     fn aeq(&self, rhs: &Self) -> bool;

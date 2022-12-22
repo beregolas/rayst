@@ -6,6 +6,7 @@ use crate::color::Color;
 use crate::geometry::{Aabb, Sphere, Triangle};
 use crate::groups::Group;
 use crate::groups::simple_group::SimpleGroup;
+use crate::lights::point::PointLight;
 use crate::math::{Vec2, Vec3};
 
 pub mod geometry;
@@ -37,7 +38,7 @@ fn main() {
 
     for (x, y, pixel) in img.enumerate_pixels_mut() {
         let ray = cam.at(Vec2::new(x as f32 / resolution.0 as f32, y as f32 / resolution.1 as f32));
-        let col = integrators::simple_shade::intersect(&world, &ray);
+        let col = integrators::simple_shade::intersect(&world, vec!(Box::new(PointLight::new(Vec3::new(250., 400., 250.), Color::new(60000., 50000., 40000.)))), &ray);
         *pixel = image::Rgb(col.to_u8());
     }
 
