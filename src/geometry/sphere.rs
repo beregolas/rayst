@@ -62,7 +62,7 @@ impl Geometry for Sphere {
         if height2 > radius2 {
             return false;
         }
-        let hit_distance = distance - (radius2 - height2).sqrt();
+        let hit_distance = distance - (radius2 + height2).sqrt();
         hit_distance > ray.min_distance && hit_distance < ray.max_distance
     }
 
@@ -85,6 +85,13 @@ mod vec3_tests {
         let s = Sphere::new(Vec3::new(0., 0., 0.), 1.0);
         let ray1 = Ray::new(Vec3::new(-2., 0., 0.), Vec3::new(1., 0.5, 0.), None, None);
         assert!(s.does_intersect(&ray1));
+    }
+
+    #[test]
+    fn intersect() {
+        let s = Sphere::new(Vec3::new(0., 0., 0.), 1.);
+        let ray1 = Ray::new(Vec3::new(0.5, 0., -1.), Vec3::new(0., 0., 1.), None, None);
+        s.intersect(&ray1);
     }
 
 }

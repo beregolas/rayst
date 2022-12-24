@@ -19,14 +19,14 @@ impl PointLight {
 }
 
 impl LightSource for PointLight {
-    fn sample(&self, point: Vec3, world: &dyn Geometry) -> Color {
-        let mut direction = point - self.center;
+    fn sample(&self, point: Vec3, world: &dyn Geometry) -> (Color, Vec3) {
+        let direction = self.center - point;
         // TODO: Optimize usage of length
         let hit = world.does_intersect(&Ray::new(point, direction, None, Some(direction.length())));
         if !hit {
-            self.intensity / direction.length_squared()
+            (self.intensity / direction.length_squared(), direction.normalized())
         } else {
-            Color::new(0., 0., 0.)
+            (Color::new(0., 0., 0.), direction.normalized())
         }
     }
 }

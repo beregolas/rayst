@@ -2,6 +2,7 @@ use std::fmt::Debug;
 use crate::color::Color;
 use crate::geometry::Geometry;
 use crate::lights::LightSource;
+use crate::math::Vector;
 
 use crate::ray::Ray;
 
@@ -30,7 +31,7 @@ fn normal_coloring(world: &impl Geometry, ray: &Ray) -> Color {
 fn distance_coloring(world: &impl Geometry, ray: &Ray) -> Color {
     let hit = world.intersect(ray);
     if let Some(hit) = hit {
-        Color::WHITE * 200. / hit.distance
+        hit.distance * Color::WHITE / 1700.
     } else {
         Color::BLACK
     }
@@ -41,9 +42,10 @@ fn lambertian(world: &impl Geometry, lights: Vec<Box<dyn LightSource>>, ray: &Ra
     let hit = world.intersect(ray);
     if let Some(hit) = hit {
         let mut color = Color::BLACK;
-        for lightsource in lights {
+        for light_source in lights {
             // add incident light
-            color += lightsource.sample(hit.point, world);
+            let (c, dir) = light_source.sample(hit.point, world);
+            color += c * hit.normal.dot(&dir);
         }
         color
     } else {

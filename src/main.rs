@@ -27,18 +27,19 @@ fn main() {
     let cam = PerspectiveCamera::new(Vec3::new(278., 273., -800.), Vec3::new(0., 0., 1.), Vec3::new(0., 1., 0.), 1., 45.);
     // let cam = PerspectiveCamera::new(Vec3::new(2., 2., 2.), Vec3::new(-1., -1., -1.), Vec3::new(0., 0., 1.), 1., 90.);
     // let cam = OrthographicCamera::new(Vec3::new(-10., 0., 0.), Vec3::new(1., 0., 0.), Vec3::new(0., 1., 0.), Vec2::new(2., 2.));
-    let sphere1 = Sphere::new(Vec3::new(300., 100., 200.), 100.);
+    let sphere1 = Sphere::new(Vec3::new(300., 0., 200.), 100.);
     // let world = Aabb::new(Vec3::new(0., 0., 0.), Vec3::new(1., 1., 1.));
     // let world = Triangle::new(Vec3::new(0., 0., 0.), Vec3::new(0., 2., 0.), Vec3::new(2., 0., 0.));
     let abox = Aabb::new(Vec3::new(30., 30., 30.), Vec3::new(70., 70., 70.));
     let mut world = SimpleGroup::new();
-    world.push(Box::new(abox));
+    // world.push(Box::new(abox));
     world.push(Box::new(sphere1));
     build_cornell_box(&mut world);
+    //world.push(Box::new(Sphere::new(Vec3::new(278., 273., -400.), 150.)));
 
     for (x, y, pixel) in img.enumerate_pixels_mut() {
         let ray = cam.at(Vec2::new(x as f32 / resolution.0 as f32, y as f32 / resolution.1 as f32));
-        let col = integrators::simple_shade::intersect(&world, vec!(Box::new(PointLight::new(Vec3::new(250., 400., 250.), Color::new(60000., 50000., 40000.)))), &ray);
+        let col = integrators::simple_shade::intersect(&world, vec!(Box::new(PointLight::new(Vec3::new(250., 400., 150.), Color::new(60000., 50000., 40000.)))), &ray);
         *pixel = image::Rgb(col.to_u8());
     }
 

@@ -87,7 +87,7 @@ mod aabb_tests {
     #[test]
     fn does_intersect1() {
         let box1 = Aabb::new(Vec3::new(-1., -1., -1.), Vec3::new(1., 1., 1.));
-        let r1 = Ray::new(Vec3::new(-1.001, 0., 0.), Vec3::new(1., 10., 110.));
+        let r1 = Ray::new(Vec3::new(-1.001, 0., 0.), Vec3::new(1., 10., 110.), None, None);
         assert!(box1.inner_does_intersect(&r1));
 
     }
