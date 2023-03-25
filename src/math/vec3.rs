@@ -75,8 +75,8 @@ impl Vec3 {
 }
 
 impl ApproxEq for Vec3 {
-    fn aeq(&self, rhs: &Self) -> bool {
-        self.x.aeq(&rhs.x) && self.y.aeq(&rhs.y) && self.z.aeq(&rhs.z)
+    fn a_eq(&self, rhs: &Self) -> bool {
+        self.x.a_eq(&rhs.x) && self.y.a_eq(&rhs.y) && self.z.a_eq(&rhs.z)
     }
 }
 
@@ -154,11 +154,7 @@ vec_op!(Vec3, /, x y z);
 
 impl From<f32> for Vec3 {
     fn from(value: f32) -> Self {
-        Vec3 {
-            x: value,
-            y: value,
-            z: value,
-        }
+        Vec3 { x: value, y: value, z: value }
     }
 }
 
@@ -285,6 +281,7 @@ mod vec3_tests {
 
     #[test]
     fn cross() {
+        // right handed coordinate system
         assert_vec_eq(v3!(1., 0., 0.).cross(&v3!(0., 1., 0.)), v3!(0., 0., 1.));
     }
 

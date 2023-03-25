@@ -1,5 +1,5 @@
 use std::ops::{Index, IndexMut};
-use crate::math::{ApproxEq, Vector};
+use crate::math::{ApproxEq, Vec3, Vector};
 use crate::vec_op;
 
 #[derive(Copy, Clone, Debug, Default, PartialEq)]
@@ -11,17 +11,16 @@ pub struct Vec4 {
 }
 
 impl ApproxEq for Vec4 {
-    fn aeq(&self, rhs: &Self) -> bool {
-        self.x.aeq(&rhs.x) && self.y.aeq(&rhs.y)
-            && self.z.aeq(&rhs.z) && self.w.aeq(&rhs.w)
+    fn a_eq(&self, rhs: &Self) -> bool {
+        self.x.a_eq(&rhs.x) && self.y.a_eq(&rhs.y)
+            && self.z.a_eq(&rhs.z) && self.w.a_eq(&rhs.w)
     }
 }
 
 impl Vec4 {
     pub const ZERO: Self = Vec4 { x: 0., y: 0., z: 0., w: 0. };
 
-    pub const ONE: Self = Vec4 { x: 1., y: 1., z: 0., w: 0. };
-
+    pub const ONE: Self = Vec4 { x: 1., y: 1., z: 1., w: 1. };
 
     pub fn new(x: f32, y: f32, z: f32, w: f32) -> Self {
         Self { x, y, z, w }
@@ -59,20 +58,30 @@ impl Vector for Vec4 {
         self.x * rhs.x + self.y * rhs.y + self.z * rhs.z + self.w * rhs.w
     }
 
-    fn min_vector(&self, _rhs: &Self) -> Self {
-        todo!()
+    fn min_vector(&self, rhs: &Self) -> Self {
+        Self {
+            x: self.x.min(rhs.x),
+            y: self.y.min(rhs.y),
+            z: self.z.min(rhs.z),
+            w: self.w.min(rhs.w),
+        }    
     }
 
-    fn max_vector(&self, _rhs: &Self) -> Self {
-        todo!()
+    fn max_vector(&self, rhs: &Self) -> Self {
+        Self {
+            x: self.x.max(rhs.x),
+            y: self.y.max(rhs.y),
+            z: self.z.max(rhs.z),
+            w: self.w.max(rhs.w),
+        }    
     }
 
     fn min_component(&self) -> f32 {
-        todo!()
+        self.x.min(self.y.min(self.z.min(self.w)))
     }
 
     fn max_component(&self) -> f32 {
-        todo!()
+        self.x.max(self.y.max(self.z.max(self.w)))
     }
 }
 
@@ -82,6 +91,29 @@ vec_op!(Vec4, -, x y z w);
 vec_op!(Vec4, *, x y z w);
 vec_op!(Vec4, /, x y z w);
 
+
+// Homogenous
+
+impl From<Vec3> for Vec4 {
+    fn from(value: Vec3) -> Self {
+        Vec4 {
+            x: value.x,
+            y: value.y,
+            z: value.z,
+            w: 1.
+        }
+    }
+}
+
+impl From<Vec4> for Vec3 {
+    fn from(value: Vec4) -> Self {
+        Vec3 {
+            x: value.x / value.w,
+            y: value.y / value.w,
+            z: value.z / value.w,
+        }
+    }
+}
 
 impl From<f32> for Vec4 {
     fn from(value: f32) -> Self {

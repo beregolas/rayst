@@ -3,6 +3,7 @@ mod vec3;
 mod vec4;
 mod macros;
 mod vec;
+mod matrix4x4;
 
 pub use vec2::Vec2;
 pub use vec3::Vec3;
@@ -12,11 +13,11 @@ pub use vec::Vector;
 pub const EPSILON: f32 = 0.001;
 
 pub trait ApproxEq {
-    fn aeq(&self, rhs: &Self) -> bool;
+    fn a_eq(&self, rhs: &Self) -> bool;
 }
 
 impl ApproxEq for f32 {
-    fn aeq(&self, rhs: &Self) -> bool {
+    fn a_eq(&self, rhs: &Self) -> bool {
         (self - rhs).abs() < EPSILON
     }
 }

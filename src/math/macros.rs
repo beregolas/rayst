@@ -1,6 +1,7 @@
 
 #[macro_export]
 macro_rules! vec_op {
+    // setup for easier calls
     ($type:tt, +, $($field:tt)*) => {
         vec_op!(f32, $type, Add, add, AddAssign, add_assign, +, $($field)*);
     };
@@ -13,6 +14,7 @@ macro_rules! vec_op {
     ($type:tt, /, $($field:tt)*) => {
         vec_op!(f32, $type, Div, div, DivAssign, div_assign, /, $($field)*);
     };
+    // implementation
     ($base_type: tt, $type:tt,
     $op_name:ident, $fn_name:ident,
     $ass_op_name:ident, $ass_fn_name:ident,

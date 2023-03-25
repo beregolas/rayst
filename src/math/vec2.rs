@@ -9,8 +9,8 @@ pub struct Vec2 {
 }
 
 impl ApproxEq for Vec2 {
-    fn aeq(&self, rhs: &Self) -> bool {
-        self.x.aeq(&rhs.x) && self.y.aeq(&rhs.y)
+    fn a_eq(&self, rhs: &Self) -> bool {
+        self.x.a_eq(&rhs.x) && self.y.a_eq(&rhs.y)
     }
 }
 

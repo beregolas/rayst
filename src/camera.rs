@@ -92,10 +92,10 @@ mod camera_tests {
     #[test]
     fn create_orthographic() {
         let cam1 = OrthographicCamera::new(Vec3::new(1., 1., 1.), Vec3::new(-4., 0., 0.), Vec3::new(0., 90.3,  0.), Vec2::new(15., 15.));
-        assert!(cam1.forward.aeq(&Vec3::new(-1., 0., 0.)));
-        assert!(cam1.origin.aeq(&Vec3::new(1., 1., 1.)));
-        assert!(cam1.up.aeq(&Vec3::new(0., 15., 0.)));
-        assert!(cam1.right.aeq(&Vec3::new(0., 0., -15.)))
+        assert!(cam1.forward.a_eq(&Vec3::new(-1., 0., 0.)));
+        assert!(cam1.origin.a_eq(&Vec3::new(1., 1., 1.)));
+        assert!(cam1.up.a_eq(&Vec3::new(0., 15., 0.)));
+        assert!(cam1.right.a_eq(&Vec3::new(0., 0., -15.)))
     }
 
 }

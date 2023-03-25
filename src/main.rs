@@ -38,6 +38,8 @@ fn main() {
     // let cam = OrthographicCamera::new(Vec3::new(-10., 0., 0.), Vec3::new(1., 0., 0.), Vec3::new(0., 1., 0.), Vec2::new(2., 2.));
     let sphere1 = Sphere::new(Vec3::new(300., 0., 200.), 100.);
     world.geometry.push(Box::new(sphere1));
+    let box1 = Aabb::new(Vec3::new(100., 500., 300.), Vec3::new(400., 400., 400.));
+    world.geometry.push(Box::new(box1));
     build_cornell_box(&mut *world.geometry);
 
     world.lights.push(Box::new(PointLight::new(Vec3::new(250., 400., 150.), Color::new(200000., 150000., 100000.))));
