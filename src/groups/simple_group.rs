@@ -1,13 +1,13 @@
 use crate::geometry::{Aabb, Geometry, Hit};
-use crate::groups::Group;
+use crate::groups::{Group, GroupContent};
 use crate::ray::Ray;
 
 #[derive(Default)]
-pub struct SimpleGroup {
-    list: Vec<Box<dyn Geometry>>
+pub struct SimpleGroup<'a> {
+    list: Vec<GroupContent<'a>>
 }
 
-impl SimpleGroup {
+impl<'a> SimpleGroup<'a> {
     pub fn new() -> Self {
         Self {
             list: Vec::new()
@@ -15,17 +15,17 @@ impl SimpleGroup {
     }
 }
 
-impl Group for SimpleGroup {
-    fn push(&mut self, item: Box<dyn Geometry>) {
+impl<'a> Group for SimpleGroup<'a> {
+    fn push(&mut self, item: GroupContent) {
         self.list.push(item)
     }
 }
 
-impl Geometry for SimpleGroup {
+impl<'a> Geometry for SimpleGroup<'a> {
     fn intersect(&self, ray: &Ray) -> Option<Hit> {
         let mut hit: Option<Hit> = None;
         for g in &self.list {
-            if let Some(new_hit) = g.intersect(ray) {
+            if let Some(new_hit) = g.item.intersect(ray) {
                 if let Some(old_hit) = hit {
                     if new_hit.distance < old_hit.distance {
                         hit = Some(new_hit);

@@ -4,7 +4,7 @@ use image::{ImageBuffer};
 use crate::camera::{Camera, PerspectiveCamera};
 use crate::color::Color;
 use crate::geometry::{Aabb, Sphere, Triangle};
-use crate::groups::Group;
+use crate::groups::{Group, GroupContent};
 use crate::groups::simple_group::SimpleGroup;
 use crate::integrators::Integrator;
 use crate::integrators::ray_trace::RayTraceIntegrator;
@@ -37,9 +37,9 @@ fn main() {
     // let cam = PerspectiveCamera::new(Vec3::new(2., 2., 2.), Vec3::new(-1., -1., -1.), Vec3::new(0., 0., 1.), 1., 90.);
     // let cam = OrthographicCamera::new(Vec3::new(-10., 0., 0.), Vec3::new(1., 0., 0.), Vec3::new(0., 1., 0.), Vec2::new(2., 2.));
     let sphere1 = Sphere::new(Vec3::new(300., 0., 200.), 100.);
-    world.geometry.push(Box::new(sphere1));
+    world.geometry.push(GroupContent::new(Box::new(sphere1), None));
     let box1 = Aabb::new(Vec3::new(100., 500., 300.), Vec3::new(400., 400., 400.));
-    world.geometry.push(Box::new(box1));
+    world.geometry.push(GroupContent::new(Box::new(box1), None));
     build_cornell_box(&mut *world.geometry);
 
     world.lights.push(Box::new(PointLight::new(Vec3::new(250., 400., 150.), Color::new(200000., 150000., 100000.))));
@@ -58,6 +58,7 @@ fn main() {
     // integrators::simple_shade::intersect(&sphere, &Ray {});
 
     img.save("test.png").unwrap();
+    println!("image written!");
 }
 
 
@@ -65,19 +66,19 @@ fn main() {
 
 fn build_cornell_box(world: &mut dyn Group) {
     // FLOOR
-    world.push(Box::new(Triangle::new(Vec3::new(0., 0., 0.), Vec3::new(552.8, 0., 0.), Vec3::new(0., 0., 559.2))));
-    world.push(Box::new(Triangle::new(Vec3::new(0., 0., 559.2),Vec3::new(552.8, 0., 0.), Vec3::new(549.6, 0., 559.2))));
+    world.push(GroupContent::new(Box::new(Triangle::new(Vec3::new(0., 0., 0.), Vec3::new(552.8, 0., 0.), Vec3::new(0., 0., 559.2))), None));
+    world.push(GroupContent::new(Box::new(Triangle::new(Vec3::new(0., 0., 559.2),Vec3::new(552.8, 0., 0.), Vec3::new(549.6, 0., 559.2))), None));
     // CEILING
-    world.push(Box::new(Triangle::new(Vec3::new(0., 548.8, 0.), Vec3::new(0., 548.8, 559.2), Vec3::new(556., 548.8, 0.))));
-    world.push(Box::new(Triangle::new(Vec3::new(0., 548.8, 559.2),Vec3::new(556., 548.8, 559.2), Vec3::new(556., 548.8, 0.))));
+    world.push(GroupContent::new(Box::new(Triangle::new(Vec3::new(0., 548.8, 0.), Vec3::new(0., 548.8, 559.2), Vec3::new(556., 548.8, 0.))), None));
+    world.push(GroupContent::new(Box::new(Triangle::new(Vec3::new(0., 548.8, 559.2),Vec3::new(556., 548.8, 559.2), Vec3::new(556., 548.8, 0.))), None));
     // BACK WALL
-    world.push(Box::new(Triangle::new(Vec3::new(556., 548.8, 559.2), Vec3::new(0., 548.8, 559.2), Vec3::new(549.6, 0., 559.2))));
-    world.push(Box::new(Triangle::new(Vec3::new(0., 548.8, 559.2), Vec3::new(0., 0., 559.2), Vec3::new(549.6, 0., 559.2))));
+    world.push(GroupContent::new(Box::new(Triangle::new(Vec3::new(556., 548.8, 559.2), Vec3::new(0., 548.8, 559.2), Vec3::new(549.6, 0., 559.2))), None));
+    world.push(GroupContent::new(Box::new(Triangle::new(Vec3::new(0., 548.8, 559.2), Vec3::new(0., 0., 559.2), Vec3::new(549.6, 0., 559.2))), None));
    // RIGHT WALL
-    world.push(Box::new(Triangle::new(Vec3::new(0., 548.8, 559.2), Vec3::new(0., 548.8, 0.), Vec3::new(0., 0., 559.2))));
-    world.push(Box::new(Triangle::new(Vec3::new(0., 548.8, 0.), Vec3::new(0., 0., 0.), Vec3::new(0., 0., 559.2))));
+    world.push(GroupContent::new(Box::new(Triangle::new(Vec3::new(0., 548.8, 559.2), Vec3::new(0., 548.8, 0.), Vec3::new(0., 0., 559.2))), None));
+    world.push(GroupContent::new(Box::new(Triangle::new(Vec3::new(0., 548.8, 0.), Vec3::new(0., 0., 0.), Vec3::new(0., 0., 559.2))), None));
     // LEFT WALL
-    world.push(Box::new(Triangle::new(Vec3::new(556., 548.8, 0.), Vec3::new(556., 548.8, 559.2), Vec3::new(552.8, 0., 0.))));
-    world.push(Box::new(Triangle::new(Vec3::new(556., 548.8, 559.2), Vec3::new(549.6, 0., 559.2), Vec3::new(552.8, 0., 0.))));
+    world.push(GroupContent::new(Box::new(Triangle::new(Vec3::new(556., 548.8, 0.), Vec3::new(556., 548.8, 559.2), Vec3::new(552.8, 0., 0.))), None));
+    world.push(GroupContent::new(Box::new(Triangle::new(Vec3::new(556., 548.8, 559.2), Vec3::new(549.6, 0., 559.2), Vec3::new(552.8, 0., 0.))), None));
 
 }

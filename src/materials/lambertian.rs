@@ -8,6 +8,6 @@ pub struct Lambertian {
 
 impl Material for Lambertian {
     fn brdf(&self, color_in: Color, light_in: Vec3, _light_out: Vec3, normal: Vec3) -> Color {
-        color_in * light_in.dot(&normal)
+        color_in * light_in.dot(&normal) * self.color
     }
 }
